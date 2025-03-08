@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply bg-netflix-red text-white px-4 py-2 rounded hover:bg-red-700 transition-colors;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-gray-500;
+  }
+} 
