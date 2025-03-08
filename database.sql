@@ -3,35 +3,34 @@ USE netflix_clone;
 
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    is_admin BOOLEAN DEFAULT FALSE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE categories (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL
+    name VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE movies (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(100) NOT NULL,
+    title VARCHAR(255) NOT NULL,
     description TEXT,
+    release_year INT,
+    category_id INT,
     thumbnail VARCHAR(255),
     video_url VARCHAR(255),
-    category_id INT,
-    release_year YEAR,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
 CREATE TABLE watchlist (
-    id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
     movie_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, movie_id),
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (movie_id) REFERENCES movies(id)
 );
@@ -59,5 +58,5 @@ INSERT INTO movies (title, description, thumbnail, video_url, category_id, relea
 ('Jurassic Park', 'Dinosaurs are brought back to life in a theme park', 'uploads/thumbnails/jurassic_park.jpg', 'https://example.com/jurassic_park.mp4', 5, 1993);
 
 -- Create an admin user (password: admin123)
-INSERT INTO users (username, email, password, is_admin) VALUES
-('admin', 'admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', TRUE); 
+INSERT INTO users (email, password) VALUES
+('admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'); 

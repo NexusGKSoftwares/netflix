@@ -27,55 +27,90 @@ foreach ($movies as $movie) {
 <html>
 <head>
     <title>Netflix Clone - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-netflix-black text-white min-h-screen">
-    <nav class="bg-black py-4 px-6 fixed w-full z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="text-netflix-red text-2xl font-bold">Netflix Clone</div>
-            <div class="space-x-6">
-                <a href="index.php" class="text-white hover:text-gray-300">Home</a>
-                <a href="watchlist.php" class="text-white hover:text-gray-300">My List</a>
-                <a href="logout.php" class="text-white hover:text-gray-300">Logout</a>
+<body class="bg-dark text-white min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand text-danger fw-bold fs-4" href="index.php">
+                <i class="fas fa-play-circle me-2"></i>Netflix Clone
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link active" href="index.php">
+                        <i class="fas fa-home me-2"></i>Home
+                    </a>
+                    <a class="nav-link" href="categories.php">
+                        <i class="fas fa-list me-2"></i>Categories
+                    </a>
+                    <a class="nav-link" href="search.php">
+                        <i class="fas fa-search me-2"></i>Search
+                    </a>
+                    <a class="nav-link" href="watchlist.php">
+                        <i class="fas fa-bookmark me-2"></i>My List
+                    </a>
+                    <a class="nav-link" href="logout.php">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="pt-20 px-6">
-        <div class="max-w-7xl mx-auto">
-            <?php foreach ($moviesByCategory as $category => $categoryMovies): ?>
-                <div class="mb-8">
-                    <h2 class="text-2xl font-bold mb-4"><?php echo htmlspecialchars($category); ?></h2>
-                    <div class="flex overflow-x-auto space-x-4 pb-4">
-                        <?php foreach ($categoryMovies as $movie): ?>
-                            <div class="flex-none w-64 transform hover:scale-105 transition-transform duration-300">
-                                <div class="rounded-lg overflow-hidden shadow-lg bg-gray-900">
+    <div class="container pt-5 mt-4">
+        <?php foreach ($moviesByCategory as $category => $categoryMovies): ?>
+            <div class="mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h2 class="fs-2 fw-bold mb-0"><?php echo htmlspecialchars($category); ?></h2>
+                    <a href="categories.php?id=<?php echo $categoryMovies[0]['category_id']; ?>" 
+                       class="ms-3 text-decoration-none text-white-50">
+                        <i class="fas fa-chevron-right"></i> View All
+                    </a>
+                </div>
+                <div class="row flex-nowrap overflow-auto g-4 pb-4">
+                    <?php foreach ($categoryMovies as $movie): ?>
+                        <div class="col-12 col-md-3">
+                            <div class="card bg-dark h-100 hover-scale">
+                                <div class="position-relative">
                                     <img src="<?php echo htmlspecialchars($movie['thumbnail']); ?>" 
                                          alt="<?php echo htmlspecialchars($movie['title']); ?>"
-                                         class="w-full h-96 object-cover">
-                                    <div class="p-4">
-                                        <h3 class="text-lg font-semibold mb-2">
-                                            <?php echo htmlspecialchars($movie['title']); ?>
-                                        </h3>
-                                        <p class="text-gray-400 mb-4">
-                                            <?php echo htmlspecialchars($movie['release_year']); ?>
-                                        </p>
-                                        <div class="space-y-2">
-                                            <a href="watch.php?id=<?php echo $movie['id']; ?>" 
-                                               class="btn-primary block text-center">Watch Now</a>
-                                            <a href="add_to_watchlist.php?id=<?php echo $movie['id']; ?>" 
-                                               class="border border-white text-white px-4 py-2 rounded block text-center hover:bg-white hover:text-black transition-colors">
-                                                Add to My List
-                                            </a>
-                                        </div>
+                                         class="card-img-top" style="height: 400px; object-fit: cover;">
+                                    <div class="position-absolute top-0 end-0 m-2">
+                                        <span class="badge bg-danger">
+                                            <i class="fas fa-star me-1"></i><?php echo $movie['release_year']; ?>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title fs-5 fw-semibold">
+                                        <?php echo htmlspecialchars($movie['title']); ?>
+                                    </h3>
+                                    <div class="d-grid gap-2">
+                                        <a href="watch.php?id=<?php echo $movie['id']; ?>" 
+                                           class="btn btn-danger">
+                                           <i class="fas fa-play me-2"></i>Watch Now
+                                        </a>
+                                        <a href="add_to_watchlist.php?id=<?php echo $movie['id']; ?>" 
+                                           class="btn btn-outline-light">
+                                           <i class="fas fa-plus me-2"></i>Add to List
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
-                    </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
-        </div>
+            </div>
+        <?php endforeach; ?>
     </div>
+
+    <!-- Add Bootstrap JavaScript and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html> 
